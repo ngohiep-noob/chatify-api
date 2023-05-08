@@ -33,6 +33,7 @@ public class AuthService {
                     .email(req.getEmail())
                     .role(Role.USER)
                     .fullName(req.getFullname())
+                    .isActive(true)
                     .build();
             userRepository.save(userEntity);
             var jwtToken = jwtService.generateToken(userEntity);
