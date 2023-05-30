@@ -70,10 +70,11 @@ public class RoomService implements IRoomService {
         Long romID = dto.getRoomId();
 
         List<UserEntity> UserList = userRepository.findAllById(UserIds);
+
         System.out.println(UserList);
         System.out.println(dto);
 
-        RoomEntity room = null;
+        RoomEntity room =roomRepository.findById(romID).orElse(null);
 
         System.out.println(room);
 
