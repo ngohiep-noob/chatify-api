@@ -1,6 +1,8 @@
-package com.resource.api.controllers.dtos;
+package com.resource.api.controllers.auth.dtos;
 
 import com.resource.api.models.Role;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -24,6 +26,6 @@ public class RegisterRequest {
     @NotBlank(message = "Email is required")
     String email;
 
-
+    @Enumerated(EnumType.STRING)
     Role role;
 }

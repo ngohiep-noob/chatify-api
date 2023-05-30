@@ -1,12 +1,14 @@
-package com.resource.api.controllers;
+package com.resource.api.controllers.auth;
 
-import com.resource.api.controllers.dtos.AuthenticationRequest;
-import com.resource.api.controllers.dtos.AuthenticationResponse;
-import com.resource.api.controllers.dtos.RegisterRequest;
+import com.resource.api.controllers.auth.dtos.AuthenticationRequest;
+import com.resource.api.controllers.auth.dtos.AuthenticationResponse;
+import com.resource.api.controllers.auth.dtos.RegisterRequest;
+import com.resource.api.models.UserEntity;
 import com.resource.api.services.AuthService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -14,7 +16,7 @@ import java.util.HashMap;
 @RestController
 @RequestMapping("/auth")
 @RequiredArgsConstructor
-public class Auth {
+public class AuthController {
     private final AuthService authService;
 
     @PostMapping("/register")

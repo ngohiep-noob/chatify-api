@@ -1,11 +1,9 @@
 package com.resource.api.models;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -13,12 +11,15 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 @Entity(name = "users")
+@Table(name = "users")
 @Data
 @AllArgsConstructor
-@NoArgsConstructor
+@NoArgsConstructor(force = true)
 @Builder
+@ToString(exclude = {"rooms", "room"})
 public class UserEntity implements UserDetails {
     @Id
     @GeneratedValue
@@ -30,19 +31,28 @@ public class UserEntity implements UserDetails {
     @Column(unique = true, nullable = false)
     private String email;
 
+    @Column(nullable = false)
     private String fullName;
 
+    @Column(nullable = false)
     private String password;
 
     @Enumerated(EnumType.STRING)
     private Role role;
 
+    @Column(nullable = false)
     private boolean isActive;
+
+    @OneToOne
+    private RoomEntity room;
+
+    @ManyToMany(mappedBy = "users")
+    private Set<RoomEntity> rooms;
 
     @CreationTimestamp
     private LocalDateTime createdAt;
 
-    @CreationTimestamp
+    @UpdateTimestamp
     private LocalDateTime updatedAt;
 
     @Override
@@ -68,5 +78,11 @@ public class UserEntity implements UserDetails {
     @Override
     public boolean isEnabled() {
         return isActive;
+    }
+
+    @PrePersist
+    public void prePersist() {
+        this.isActive = true;
+        this.role = Role.USER;
     }
 }
