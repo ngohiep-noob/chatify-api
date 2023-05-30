@@ -78,9 +78,9 @@ public class RoomService implements IRoomService {
         System.out.println(room);
 
         if (room != null) {
-//            room.getUsers().addAll(UserList);
-//
-//            roomRepository.save(room);
+           room.getUsers().addAll(UserList);
+
+             roomRepository.save(room);
 
             return HttpResponse.builder()
                     .message("Add Users")
