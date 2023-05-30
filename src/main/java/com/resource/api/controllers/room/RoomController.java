@@ -21,6 +21,7 @@ public class RoomController {
     @PostMapping()
     public ResponseEntity<HttpResponse> CreateRoom(@RequestBody @Valid
                                                    CreateRoomRequest dto) {
+
         return ResponseEntity.ok(roomService.CreateRoom(dto));
     }
 }

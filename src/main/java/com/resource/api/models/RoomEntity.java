@@ -15,16 +15,18 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@ToString(exclude = {"users", "owner"})
 public class RoomEntity {
     @Id
     @GeneratedValue
     private Long id;
 
+    @Column(unique = true)
     private String name;
 
     private String description;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(
             name = "users_rooms",
             joinColumns = @JoinColumn(name = "room_id"),
