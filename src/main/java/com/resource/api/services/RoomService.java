@@ -18,10 +18,7 @@ import org.hibernate.annotations.Fetch;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -70,8 +67,33 @@ public class RoomService implements IRoomService {
     public HttpResponse JoinRoom(JoinRoomRequest dto) {
 
         ArrayList<Long> UserIds = dto.getUserIds();
-        Long romID= dto.getRoomId();
+        Long romID = dto.getRoomId();
 
-        return null;
+        List<UserEntity> UserList = userRepository.findAllById(UserIds);
+        System.out.println(UserList);
+        System.out.println(dto);
+
+        RoomEntity room = null;
+
+        System.out.println(room);
+
+        if (room != null) {
+//            room.getUsers().addAll(UserList);
+//
+//            roomRepository.save(room);
+
+            return HttpResponse.builder()
+                    .message("Add Users")
+                    .status(HttpStatus.OK)
+                    .data(dto)
+                    .build();
+        } else {
+            return HttpResponse.builder()
+                    .message("NO")
+                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .data(dto)
+                    .build();
+        }
+
     }
 }

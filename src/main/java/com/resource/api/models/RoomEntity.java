@@ -42,4 +42,5 @@ public class RoomEntity {
 
     @UpdateTimestamp
     private LocalDateTime updatedAt;
+
 }

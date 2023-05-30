@@ -2,6 +2,7 @@ package com.resource.api.controllers.room;
 
 import com.resource.api.controllers.HttpResponse;
 import com.resource.api.controllers.room.dtos.CreateRoomRequest;
+import com.resource.api.controllers.room.dtos.JoinRoomRequest;
 import com.resource.api.services.RoomService;
 import com.resource.api.services.intefaces.IRoomService;
 import jakarta.validation.Valid;
@@ -23,5 +24,10 @@ public class RoomController {
                                                    CreateRoomRequest dto) {
 
         return ResponseEntity.ok(roomService.CreateRoom(dto));
+    }
+    @PostMapping("/add-users")
+    public ResponseEntity<HttpResponse> AddUsers(@RequestBody @Valid
+                                                     JoinRoomRequest dto) {
+        return ResponseEntity.ok(roomService.JoinRoom(dto));
     }
 }
