@@ -12,6 +12,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.Set;
 
 @Component
 @RequiredArgsConstructor
@@ -19,6 +20,7 @@ import java.util.ArrayList;
 public class DataSender {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final RoomRepository roomRepository;
 
     @PostConstruct
     public void Seeding() {
@@ -53,11 +55,18 @@ public class DataSender {
 
         ArrayList<RoomEntity> rooms = new ArrayList<>();
 
+        Set<UserEntity> members = Set.of(users.get(0), users.get(1));
+
         rooms.add(RoomEntity.builder()
                 .name("room1")
+                .description("room1")
+                .owner(users.get(0))
+                .users(members)
                 .build());
 
+        System.out.println(users);
         try {
+            roomRepository.save(rooms.get(0));
             userRepository.saveAll(users);
             log.info("Seeding user success!");
         } catch (Exception e) {

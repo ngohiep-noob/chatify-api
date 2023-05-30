@@ -46,7 +46,7 @@ public class UserEntity implements UserDetails {
     @OneToOne
     private RoomEntity room;
 
-    @ManyToMany(mappedBy = "users")
+    @ManyToMany(mappedBy = "users", fetch = FetchType.EAGER)
     private Set<RoomEntity> rooms;
 
     @CreationTimestamp

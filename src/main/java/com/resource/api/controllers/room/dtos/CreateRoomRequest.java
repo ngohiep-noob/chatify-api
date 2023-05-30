@@ -4,7 +4,6 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
 import java.util.ArrayList;
-import java.util.Set;
 
 @Data
 public class CreateRoomRequest {
@@ -14,9 +13,5 @@ public class CreateRoomRequest {
     @NotBlank
     String desc;
 
-    @NotBlank
-    ArrayList<Long> membersId;
-
-    @NotBlank
-    Long creatorId;
+    ArrayList<Long> memberIds;
 }

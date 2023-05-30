@@ -3,15 +3,18 @@ package com.resource.api.services;
 import com.resource.api.controllers.HttpResponse;
 import com.resource.api.controllers.room.dtos.CreateRoomRequest;
 import com.resource.api.controllers.room.dtos.JoinRoomRequest;
-import com.resource.api.controllers.room.dtos.RoomListItem;
 import com.resource.api.models.RoomEntity;
 import com.resource.api.models.UserEntity;
 import com.resource.api.repositories.RoomRepository;
 import com.resource.api.repositories.UserRepository;
 import com.resource.api.services.intefaces.IRoomService;
 import com.resource.api.utils.SecurityUtils;
+import jakarta.persistence.EntityManager;
+import jakarta.transaction.RollbackException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.apache.catalina.User;
+import org.hibernate.annotations.Fetch;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -32,10 +35,12 @@ public class RoomService implements IRoomService {
 
     @Override
     @Transactional
+    @Fetch(org.hibernate.annotations.FetchMode.JOIN)
     public HttpResponse CreateRoom(CreateRoomRequest dto) {
+
         UserEntity currentUser = securityUtils.getCurrentUser();
 
-        ArrayList<Long> memberIds = dto.getMembersId();
+        ArrayList<Long> memberIds = dto.getMemberIds();
 
         List<UserEntity> memberList = userRepository.findAllById(memberIds);
 
@@ -48,13 +53,17 @@ public class RoomService implements IRoomService {
                 .owner(currentUser)
                 .build();
 
-        roomRepository.save(newRoom);
+        RoomEntity createRes = roomRepository.save(newRoom);
 
-        return HttpResponse.builder()
+        System.out.println(createRes);
+
+        HttpResponse response = HttpResponse.builder()
                 .message("Room created!")
                 .status(HttpStatus.CREATED)
-                .data(newRoom)
+                .data(createRes)
                 .build();
+        System.out.println(response);
+        return response;
     }
 
     @Override
