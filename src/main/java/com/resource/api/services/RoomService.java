@@ -59,6 +59,10 @@ public class RoomService implements IRoomService {
 
     @Override
     public HttpResponse JoinRoom(JoinRoomRequest dto) {
+
+        ArrayList<Long> UserIds = dto.getUserIds();
+        Long romID= dto.getRoomId();
+
         return null;
     }
 }

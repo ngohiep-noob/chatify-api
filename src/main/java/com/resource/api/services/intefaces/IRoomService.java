@@ -8,4 +8,5 @@ public interface IRoomService {
     public HttpResponse CreateRoom(CreateRoomRequest dto);
 
     public HttpResponse JoinRoom(JoinRoomRequest dto);
+
 }
