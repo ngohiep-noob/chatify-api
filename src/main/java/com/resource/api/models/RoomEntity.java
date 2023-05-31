@@ -26,7 +26,7 @@ public class RoomEntity {
 
     private String description;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
     @JoinTable(
             name = "users_rooms",
             joinColumns = @JoinColumn(name = "room_id"),
@@ -42,14 +42,4 @@ public class RoomEntity {
 
     @UpdateTimestamp
     private LocalDateTime updatedAt;
-
-    public void addUsers(List<UserEntity> users)
-    {
-        for (UserEntity i: users
-             ) {
-            this.users.add(i);
-
-        }
-    }
-
 }

@@ -1,5 +1,6 @@
 package com.resource.api.models;
 
+import com.resource.api.controllers.user.dto.UserDTO;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -84,5 +85,15 @@ public class UserEntity implements UserDetails {
     public void prePersist() {
         this.isActive = true;
         this.role = Role.USER;
+    }
+
+    public UserDTO toDTO() {
+        return UserDTO.builder()
+                .fullName(fullName)
+                .email(email)
+                .id(id)
+                .username(username)
+                .isActive(isActive)
+                .build();
     }
 }

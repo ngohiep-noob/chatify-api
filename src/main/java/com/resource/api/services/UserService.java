@@ -29,13 +29,17 @@ public class UserService implements UserDetailsService, IUserService {
 
     @Override
     public HttpResponse GetUserInfo(Long userId) {
-        UserEntity user = userRepository.findById(userId).orElse(null);
+        try {
+            UserEntity user = userRepository.findById(userId).orElse(null);
 
-        if (user == null) {
-            throw new UsernameNotFoundException("User not found");
+            if (user == null) {
+                throw new UsernameNotFoundException("User not found");
+            }
+
+            return new HttpResponse("get user info success", user.toDTO(), HttpStatus.OK);
+        } catch (Exception e) {
+            return new HttpResponse("Cannot get user information!", null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
-
-        return new HttpResponse("get user info success", user, HttpStatus.OK);
     }
 
     @Override
