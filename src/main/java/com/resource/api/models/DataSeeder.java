@@ -1,6 +1,7 @@
 package com.resource.api.models;
 
 
+import com.resource.api.repositories.ChatRepository;
 import com.resource.api.repositories.RoomRepository;
 import com.resource.api.repositories.UserRepository;
 import jakarta.annotation.PostConstruct;
@@ -19,6 +20,15 @@ public class DataSeeder {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final RoomRepository roomRepository;
+    private final ChatRepository chatRepository;
+
+    private ChatEntity newChat(RoomEntity room, UserEntity user, String message) {
+        return ChatEntity.builder()
+                .message(message)
+                .userId(user.getId())
+                .room(room)
+                .build();
+    }
 
     @PostConstruct
     public void Seeding() {
@@ -59,8 +69,8 @@ public class DataSeeder {
 
             rooms.add(RoomEntity.builder()
                     .name("Room 1")
-                    .description("room1")
-                    .owner(users.get(0))
+                    .description("Room 1")
+                    .ownerId(users.get(0).getId())
                     .users(members1)
                     .build());
 
@@ -68,13 +78,25 @@ public class DataSeeder {
                     .name("Room 2")
                     .users(members2)
                     .description("Room 2")
-                    .owner(users.get(1))
+                    .ownerId(users.get(1).getId())
                     .build());
 
-            System.out.println(users);
-            System.out.println(rooms);
             userRepository.saveAll(users);
+            System.out.println(users);
+
             roomRepository.saveAll(rooms);
+            System.out.println(rooms);
+
+            Set<ChatEntity> messages = Set.of(
+                    newChat(rooms.get(0), users.get(0), "Hello room 1"),
+                    newChat(rooms.get(0), users.get(1), "Hi room 1"),
+                    newChat(rooms.get(0), users.get(2), "My name is user 3"),
+                    newChat(rooms.get(1), users.get(1), "Hello room 2"),
+                    newChat(rooms.get(1), users.get(2), "Hi room 2")
+            );
+
+            chatRepository.saveAll(messages);
+            System.out.println(messages);
             log.info("Seeding user success!");
         } catch (Exception e) {
             log.error("Seeding error: " + e.getMessage());

@@ -8,10 +8,7 @@ import com.resource.api.services.intefaces.IRoomService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/room")
@@ -22,12 +19,20 @@ public class RoomController {
     @PostMapping()
     public ResponseEntity<HttpResponse> CreateRoom(@RequestBody @Valid
                                                    CreateRoomRequest dto) {
-
-        return ResponseEntity.ok(roomService.CreateRoom(dto));
+        HttpResponse response = roomService.CreateRoom(dto);
+        return ResponseEntity.status(response.getStatus()).body(response);
     }
+
     @PostMapping("/add-users")
     public ResponseEntity<HttpResponse> AddUsers(@RequestBody @Valid
-                                                     JoinRoomRequest dto) {
-        return ResponseEntity.ok(roomService.JoinRoom(dto));
+                                                 JoinRoomRequest dto) {
+        HttpResponse response = roomService.JoinRoom(dto);
+        return ResponseEntity.status(response.getStatus()).body(response);
+    }
+
+    @GetMapping("/chat-history/{roomId}")
+    public ResponseEntity<HttpResponse> GetChatHistory(@PathVariable String roomId) {
+        HttpResponse response = roomService.GetChatHistory(Long.parseLong(roomId));
+        return ResponseEntity.status(response.getStatus()).body(response);
     }
 }

@@ -1,5 +1,7 @@
 package com.resource.api.controllers.room.dtos;
 
+import com.resource.api.controllers.chat.dtos.ChatDTO;
+import com.resource.api.models.ChatEntity;
 import com.resource.api.models.Message;
 import lombok.*;
 
@@ -10,7 +12,7 @@ import lombok.*;
 public class RoomListItem {
     private String name;
     private String desc;
-    private Message lastMessage;
+    private ChatDTO lastMessage;
 }
 
 

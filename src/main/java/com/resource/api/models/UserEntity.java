@@ -44,9 +44,6 @@ public class UserEntity implements UserDetails {
     @Column(nullable = false)
     private boolean isActive;
 
-    @OneToOne
-    private RoomEntity room;
-
     @ManyToMany(mappedBy = "users", fetch = FetchType.EAGER)
     private Set<RoomEntity> rooms;
 
@@ -94,6 +91,7 @@ public class UserEntity implements UserDetails {
                 .id(id)
                 .username(username)
                 .isActive(isActive)
+                .role(role)
                 .build();
     }
 }

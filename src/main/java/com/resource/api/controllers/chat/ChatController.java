@@ -1,6 +1,7 @@
 
 package com.resource.api.controllers.chat;
 
+import com.resource.api.controllers.HttpResponse;
 import com.resource.api.models.Message;
 import com.resource.api.services.ChatService;
 import lombok.RequiredArgsConstructor;
@@ -10,12 +11,15 @@ import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
+@RestController
+@RequestMapping("/chat")
 @RequiredArgsConstructor
 public class ChatController {
 
-    private SimpMessagingTemplate simpMessagingTemplate;
+    private final SimpMessagingTemplate simpMessagingTemplate;
 
     private final ChatService chatService;
 
@@ -43,4 +47,5 @@ public class ChatController {
         System.out.println(message.toString());
         return message;
     }
+
 }

@@ -1,5 +1,6 @@
 package com.resource.api.config;
 
+import com.resource.api.models.UserEntity;
 import com.resource.api.services.UserService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -38,14 +39,14 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         jwt = authorizationHeader.substring(7);
         userName = jwtService.extractUsername(jwt);
         if (userName != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            UserDetails userDetails = this.UserService.loadUserByUsername(userName);
+            UserEntity userDetails = this.UserService.loadUserByUsername(userName);
+            System.out.println("Login user: " + userDetails);
             if (jwtService.isValidToken(jwt, userDetails)) {
                 UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
                         userDetails, null, userDetails.getAuthorities()
                 );
                 authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(authToken);
-
             }
         }
         filterChain.doFilter(request, response);
