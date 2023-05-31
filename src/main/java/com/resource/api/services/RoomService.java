@@ -49,33 +49,32 @@ public class RoomService implements IRoomService {
 
         RoomEntity createRes = roomRepository.save(newRoom);
 
-        System.out.println(createRes);
-
-        HttpResponse response = HttpResponse.builder()
+        return HttpResponse.builder()
                 .message("Room created!")
                 .status(HttpStatus.CREATED)
                 .data(createRes)
                 .build();
-        System.out.println(response);
-        return response;
     }
 
     @Override
     public HttpResponse JoinRoom(JoinRoomRequest dto) {
 
         ArrayList<Long> UserIds = dto.getUserIds();
-        Long romID = dto.getRoomId();
+        Long roomID = dto.getRoomId();
 
         List<UserEntity> userList = userRepository.findAllById(UserIds);
 
         System.out.println(userList);
         System.out.println(dto);
 
-        RoomEntity room = roomRepository.findById(romID).orElse(null);
+        RoomEntity room = roomRepository.findById(roomID).orElse(null);
 
         System.out.println(room);
+        if (room != null) {
+            room.getUsers().addAll(userList);
 
-        room.getUsers().addAll(userList);
+            roomRepository.save(room);
+        }
 
         return HttpResponse.builder()
                 .message("Add Users")
