@@ -43,4 +43,13 @@ public class RoomEntity {
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 
+    public void addUsers(List<UserEntity> users)
+    {
+        for (UserEntity i: users
+             ) {
+            this.users.add(i);
+
+        }
+    }
+
 }

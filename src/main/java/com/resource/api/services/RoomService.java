@@ -69,32 +69,21 @@ public class RoomService implements IRoomService {
         ArrayList<Long> UserIds = dto.getUserIds();
         Long romID = dto.getRoomId();
 
-        List<UserEntity> UserList = userRepository.findAllById(UserIds);
+        List<UserEntity> userList = userRepository.findAllById(UserIds);
 
-        System.out.println(UserList);
+        System.out.println(userList);
         System.out.println(dto);
 
-        RoomEntity room =roomRepository.findById(romID).orElse(null);
+        RoomEntity room = roomRepository.findById(romID).orElse(null);
 
         System.out.println(room);
 
-        if (room != null) {
-           room.getUsers().addAll(UserList);
+        room.getUsers().addAll(userList);
 
-             roomRepository.save(room);
-
-            return HttpResponse.builder()
-                    .message("Add Users")
-                    .status(HttpStatus.OK)
-                    .data(dto)
-                    .build();
-        } else {
-            return HttpResponse.builder()
-                    .message("NO")
-                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .data(dto)
-                    .build();
-        }
-
+        return HttpResponse.builder()
+                .message("Add Users")
+                .status(HttpStatus.OK)
+                .data(room)
+                .build();
     }
 }

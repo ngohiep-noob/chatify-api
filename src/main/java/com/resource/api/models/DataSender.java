@@ -55,7 +55,7 @@ public class DataSender {
 
         ArrayList<RoomEntity> rooms = new ArrayList<>();
 
-        Set<UserEntity> members = Set.of(users.get(0), users.get(1));
+        Set<UserEntity> members = Set.of(users.get(0));
 
         rooms.add(RoomEntity.builder()
                 .name("room1")
