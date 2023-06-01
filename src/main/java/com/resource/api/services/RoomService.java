@@ -4,6 +4,7 @@ import com.resource.api.controllers.HttpResponse;
 import com.resource.api.controllers.room.dtos.CreateRoomRequest;
 import com.resource.api.controllers.room.dtos.JoinRoomRequest;
 import com.resource.api.controllers.room.dtos.RoomDTO;
+import com.resource.api.controllers.user.dto.UserDTO;
 import com.resource.api.models.RoomEntity;
 import com.resource.api.models.UserEntity;
 import com.resource.api.repositories.RoomRepository;
@@ -115,5 +116,30 @@ public class RoomService implements IRoomService {
                 .message("Room not found")
                 .status(HttpStatus.NOT_FOUND)
                 .build();
+    }
+
+    @Override
+    public HttpResponse GetUserList(Long roomId) {
+        RoomEntity room = roomRepository.findById(roomId).orElse(null);
+
+        if (room != null) {
+            List<UserEntity> userList = new ArrayList<>(room.getUsers());
+            List<UserDTO> userDTOList = new ArrayList<>();
+            for (UserEntity user : userList) {
+                userDTOList.add(user.toDTO());
+            }
+
+            return HttpResponse.builder()
+                    .message("Get User List")
+                    .status(HttpStatus.OK)
+                    .data(userDTOList)
+                    .build();
+        }
+
+        return HttpResponse.builder()
+                .message("Room not found")
+                .status(HttpStatus.NOT_FOUND)
+                .build();
+
     }
 }

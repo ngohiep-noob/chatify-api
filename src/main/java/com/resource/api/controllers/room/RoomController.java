@@ -36,4 +36,10 @@ public class RoomController {
         HttpResponse response = roomService.GetChatHistory(Long.parseLong(roomId));
         return ResponseEntity.status(response.getStatus()).body(response);
     }
+
+    @GetMapping("/user-list/{roomId}")
+    public ResponseEntity<HttpResponse> GetUserList(@PathVariable String roomId) {
+        HttpResponse response = roomService.GetUserList(Long.parseLong(roomId));
+        return ResponseEntity.status(response.getStatus()).body(response);
+    }
 }

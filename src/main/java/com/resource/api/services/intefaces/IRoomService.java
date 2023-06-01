@@ -12,4 +12,5 @@ public interface IRoomService {
 
     public HttpResponse GetChatHistory(Long roomId);
 
+    public HttpResponse GetUserList(Long roomId);
 }

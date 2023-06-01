@@ -1,16 +1,15 @@
 
 package com.resource.api.controllers.chat;
 
-import com.resource.api.controllers.HttpResponse;
 import com.resource.api.models.Message;
+import com.resource.api.models.UserEntity;
+import com.resource.api.repositories.UserRepository;
 import com.resource.api.services.ChatService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 public class ChatController {
-
+    private final UserRepository userRepository;
     private final SimpMessagingTemplate simpMessagingTemplate;
 
     private final ChatService chatService;
@@ -34,9 +33,14 @@ public class ChatController {
 
     @MessageMapping("/group-chat")
     public Message groupChat(@Payload Message message) {
+
         System.out.println(message);
 
-        simpMessagingTemplate.convertAndSend("/chatroom/" + message.getReceiver(), message);
+        UserEntity sender = userRepository.findById(Long.valueOf(message.getSenderId())).orElse(null);
+        assert sender != null;
+        message.setSenderName(sender.getUsername());
+
+        simpMessagingTemplate.convertAndSend("/chatroom/" + message.getReceiverId(), message);
 
         chatService.SaveMessage(message);
 
@@ -45,7 +49,7 @@ public class ChatController {
 
     @MessageMapping("/private-message")
     public Message recMessage(@Payload Message message) {
-        simpMessagingTemplate.convertAndSendToUser(message.getReceiver(), "/private", message);
+        simpMessagingTemplate.convertAndSendToUser(message.getReceiverId(), "/private", message);
         System.out.println(message.toString());
         return message;
     }

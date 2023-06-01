@@ -20,7 +20,7 @@ public class ChatService implements IChatService {
     public void SaveMessage(Message msg) {
         try {
             RoomEntity room = roomRepository
-                    .findById(Long.valueOf(msg.getReceiver()))
+                    .findById(Long.valueOf(msg.getReceiverId()))
                     .orElse(null);
 
             if (room == null) {
@@ -28,7 +28,7 @@ public class ChatService implements IChatService {
             }
 
             ChatEntity newMsg = ChatEntity.builder()
-                    .userId(Long.valueOf(msg.getSender()))
+                    .userId(Long.valueOf(msg.getSenderId()))
                     .room(room)
                     .message(msg.getMessage())
                     .build();

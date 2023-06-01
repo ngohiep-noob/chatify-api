@@ -8,8 +8,9 @@ import java.util.Date;
 @Data
 @ToString
 public class Message {
-    private String sender; // user id
-    private String receiver; // room id
+    private String senderId; // user id
+    private String receiverId; // room id
+    private String senderName;
     private String message;
     private Date date;
 }
