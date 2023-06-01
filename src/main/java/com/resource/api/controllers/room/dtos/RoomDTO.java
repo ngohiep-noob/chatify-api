@@ -18,4 +18,5 @@ public class RoomDTO {
     Long ownerId;
     String createdAt;
     List<ChatDTO> chats;
+    Integer memberCount = 0;
 }

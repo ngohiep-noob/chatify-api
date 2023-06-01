@@ -10,6 +10,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 public class RoomListItem {
+    private Long id;
     private String name;
     private String desc;
     private ChatDTO lastMessage;

@@ -23,7 +23,7 @@ public class RoomEntity {
     @GeneratedValue
     private Long id;
 
-    @Column(unique = true)
+    @Column
     private String name;
 
     private String description;

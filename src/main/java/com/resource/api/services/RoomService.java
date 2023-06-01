@@ -3,6 +3,7 @@ package com.resource.api.services;
 import com.resource.api.controllers.HttpResponse;
 import com.resource.api.controllers.room.dtos.CreateRoomRequest;
 import com.resource.api.controllers.room.dtos.JoinRoomRequest;
+import com.resource.api.controllers.room.dtos.RoomDTO;
 import com.resource.api.models.RoomEntity;
 import com.resource.api.models.UserEntity;
 import com.resource.api.repositories.RoomRepository;
@@ -36,8 +37,11 @@ public class RoomService implements IRoomService {
     @Fetch(org.hibernate.annotations.FetchMode.JOIN)
     public HttpResponse CreateRoom(CreateRoomRequest dto) {
         UserEntity currentUser = securityUtils.getCurrentUser();
-        ArrayList<Long> memberIds = dto.getMemberIds();
-        List<UserEntity> memberList = userRepository.findAllById(memberIds);
+        ArrayList<String> memberNames = dto.getMemberNames();
+        List<UserEntity> memberList = userRepository.findAllByUsernameIn(memberNames);
+
+        memberList.add(currentUser);
+        System.out.println(memberList);
         Set<UserEntity> memberSet = new HashSet<>(memberList);
 
         RoomEntity newRoom = RoomEntity.builder()
@@ -76,11 +80,12 @@ public class RoomService implements IRoomService {
                     .data(null)
                     .build();
 
-        ArrayList<Long> userIds = dto.getUserIds();
-        userIds.add(currentUser.getId());
-        List<UserEntity> userList = userRepository.findAllById(userIds);
+        ArrayList<String> usernames = dto.getUsernames();
+
+        List<UserEntity> userList = userRepository.findAllByUsernameIn(usernames);
 
         room.getUsers().addAll(userList);
+
         roomRepository.save(room);
 
         return HttpResponse.builder()
@@ -96,10 +101,13 @@ public class RoomService implements IRoomService {
         RoomEntity room = roomRepository.findById(roomId).orElse(null);
 
         if (room != null) {
+            Integer countMembers = room.getUsers().size();
+            RoomDTO roomDTO = room.toDTO();
+            roomDTO.setMemberCount(countMembers);
             return HttpResponse.builder()
                     .message("Get Chat History")
                     .status(HttpStatus.OK)
-                    .data(room.toDTO())
+                    .data(roomDTO)
                     .build();
         }
 

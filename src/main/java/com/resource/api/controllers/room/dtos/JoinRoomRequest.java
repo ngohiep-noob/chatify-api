@@ -9,5 +9,5 @@ import java.util.ArrayList;
 @Builder
 public class JoinRoomRequest {
     private Long roomId;
-    private ArrayList<Long> userIds;
+    private ArrayList<String> usernames;
 }

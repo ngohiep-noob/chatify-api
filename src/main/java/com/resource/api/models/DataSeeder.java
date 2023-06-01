@@ -35,31 +35,31 @@ public class DataSeeder {
         try {
             ArrayList<UserEntity> users = new ArrayList<>();
             users.add(UserEntity.builder()
-                    .username("user1")
+                    .username("ngohiep")
                     .password(passwordEncoder.encode("123456"))
-                    .email("user1@gm.com")
-                    .fullName("user1")
+                    .email("ngohiep@gm.com")
+                    .fullName("Ngo Duc Hoang Hiep")
                     .build());
 
             users.add(UserEntity.builder()
-                    .username("user2")
+                    .username("chanhnghia")
                     .password(passwordEncoder.encode("123456"))
-                    .email("user2@gm.com")
-                    .fullName("user2")
+                    .email("chanhnghia@gm.com")
+                    .fullName("Nguyen Chanh Nghia")
                     .build());
 
             users.add(UserEntity.builder()
-                    .username("user3")
+                    .username("hoangkhanh")
                     .password(passwordEncoder.encode("123456"))
-                    .email("user3@gm.com")
-                    .fullName("user3")
+                    .email("hoangkhanh@gm.com")
+                    .fullName("Huynh Hoang Khanh")
                     .build());
 
             users.add(UserEntity.builder()
-                    .username("user4")
+                    .username("quochung")
                     .password(passwordEncoder.encode("123456"))
-                    .email("user4@gm.com")
-                    .fullName("user4")
+                    .email("quochung@gm.com")
+                    .fullName("Nguyen Quoc Hung")
                     .build());
 
             ArrayList<RoomEntity> rooms = new ArrayList<>();

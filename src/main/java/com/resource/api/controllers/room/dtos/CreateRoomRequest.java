@@ -13,5 +13,5 @@ public class CreateRoomRequest {
     @NotBlank
     String desc;
 
-    ArrayList<Long> memberIds;
+    ArrayList<String> memberNames;
 }

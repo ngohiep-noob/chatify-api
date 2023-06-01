@@ -4,10 +4,7 @@ import com.resource.api.controllers.HttpResponse;
 import com.resource.api.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -25,6 +22,12 @@ public class UserController {
     @GetMapping("/rooms")
     public ResponseEntity<HttpResponse> GetRooms() {
         HttpResponse response = userService.GetRooms();
+        return ResponseEntity.status(response.getStatus()).body(response);
+    }
+
+    @GetMapping("/find")
+    public ResponseEntity<HttpResponse> FindUserByName(@RequestParam("name") String name) {
+        HttpResponse response = userService.FindUserByName(name);
         return ResponseEntity.status(response.getStatus()).body(response);
     }
 }
