@@ -31,7 +31,7 @@ public class SecurityConfig {
                 .cors().and()
                 .csrf().disable()
                 .authorizeHttpRequests()
-                .requestMatchers("/auth/login", "/auth/register", "/ws/**")
+                .requestMatchers("/auth/login", "/auth/register", "/ws/**", "/")
                 .permitAll()
                 .requestMatchers("/auth/protected", "/room/**", "/users/**", "/chat/**")
                 .authenticated()

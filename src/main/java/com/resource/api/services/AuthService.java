@@ -9,6 +9,7 @@ import com.resource.api.models.UserEntity;
 import com.resource.api.repositories.UserRepository;
 import com.resource.api.services.intefaces.IAuthService;
 import lombok.RequiredArgsConstructor;
+import org.apache.catalina.User;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -32,6 +33,14 @@ public class AuthService implements IAuthService {
 
     public AuthenticationResponse register(RegisterRequest req) {
         try {
+            UserEntity existingUser = userRepository
+                    .findByUsername(req.getUsername())
+                    .orElse(null);
+
+            if (existingUser != null)
+                throw new ResponseStatusException(HttpStatus.CONFLICT, "Username already exists");
+
+
             UserEntity userEntity = UserEntity.builder()
                     .username(req.getUsername())
                     .password(passwordEncoder.encode(req.getPassword()))

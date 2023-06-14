@@ -21,13 +21,12 @@ import org.springframework.web.bind.annotation.RestController;
 public class ChatController {
     private final UserRepository userRepository;
     private final SimpMessagingTemplate simpMessagingTemplate;
-
     private final ChatService chatService;
 
     @MessageMapping("/message")
     @SendTo("/chatroom/public")
     public Message receiveMessage(@Payload Message message) {
-        message.setMessage("Hello user!");
+        System.out.println(message.toString());
         return message;
     }
 
